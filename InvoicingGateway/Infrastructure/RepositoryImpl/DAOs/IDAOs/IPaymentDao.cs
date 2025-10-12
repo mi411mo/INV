@@ -1,0 +1,24 @@
+﻿using Domain.Entities;
+using Domain.Models.Base;
+using Infrastructure.RepositoryImpl.DAL;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Infrastructure.RepositoryImpl.DAOs.IDAOs
+{
+    public interface IPaymentDao
+    {
+        Task<bool> InsertAsync(Payment mdl, DataAccessRepository daRpst);
+        Task<DataTable> GetAll(DataAccessRepository daRpst);
+        Task<DataTable> GetAll(GeneralFilterDto generalFilter, DataAccessRepository daRpst);
+        Task<DataTable> GetPaymentById(int id, DataAccessRepository daRpst);
+        Task<DataTable> GetPaymentByInvRef(string invoiceNo, DataAccessRepository daRpst);
+        Task<DataTable> GetPaymentByRef(string payRef, DataAccessRepository daRpst);
+        Task<bool> Update(int id, Payment mdl, DataAccessRepository daRpst);
+        Task<bool> UpdateStatus(int id, int status, DataAccessRepository daRpst);
+    }
+}

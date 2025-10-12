@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Google.Protobuf" Version="3.21.2" />
+	  <PackageReference Include="Grpc.Net.Client" Version="2.47.0" />
+	  <PackageReference Include="Grpc.Tools" Version="2.47.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+      <ProjectReference Include="..\Application\Application.csproj" />
+	  <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.9.0" />
+	  <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	  <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.5.12" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.14" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.14" />
+	  <PackageReference Include="IdentityModel" Version="3.10.10" />
+
+  </ItemGroup>
+
+
+	<ItemGroup>
+		<Protobuf Include="Protos\accounting.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\Rating.proto" GrpcServices="Client" />
+	</ItemGroup>
+
+</Project>

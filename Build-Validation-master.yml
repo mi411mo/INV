@@ -1,0 +1,22 @@
+trigger:
+  branches:
+    include:
+      - none
+
+pool:
+          name: 'CICDAgentPool'
+
+resources:
+  repositories:
+    - repository: template
+      type: git
+      name: PipelineTemplate/PipelineTemplate 
+
+stages:
+- template: buildvalidationtemplate.yml@template
+  parameters:
+   solution: 'InvoicingGateway/InvoicingGatewayAPI'
+
+- template: buildvalidationtemplate.yml@template
+  parameters:
+   solution: 'InvoicingGateway/WebAPI'

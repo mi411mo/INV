@@ -1,0 +1,1421 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:40011/gateway"
+  },
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/Merchants",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllMerchantsHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Merchants",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Merchants
+    {
+      "DownstreamPathTemplate": "/api/Merchants",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllUnauthMerchantsHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/GetMerchants",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All unauth Merchants
+    {
+      "DownstreamPathTemplate": "/api/Merchants/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetMerchantByIdHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Merchants/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get Merchant By Id
+    {
+      "DownstreamPathTemplate": "/api/Merchants",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreateMerchantHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Merchants",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create Merchant
+    {
+      "DownstreamPathTemplate": "/api/Merchants",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreateUnauthMerchantHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/AddMerchants",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create Unauthunticated Merchant
+    {
+      "DownstreamPathTemplate": "/api/Merchants",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateMerchantHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Merchants",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+
+
+
+    /// Update Merchant
+    {
+      "DownstreamPathTemplate": "/api/Merchants/{id}/{status}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateMerchantStatusHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Merchants/{id}/{status}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update status of Merchant
+    {
+      "DownstreamPathTemplate": "/api/Merchants/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "DeleteMerchantHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Merchants/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    }, /// Delete Merchant
+    {
+      "DownstreamPathTemplate": "/api/Customers",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllCustomersHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Customers",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Customers
+    {
+      "DownstreamPathTemplate": "/api/Customers/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetCustomerByIdHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Customers/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get Customer By Id
+    {
+      "DownstreamPathTemplate": "/api/Customers",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreateCustomerHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Customers",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create Customer
+    {
+      "DownstreamPathTemplate": "/api/Customers",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreateUnauthCustomerHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/AddCustomers",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create unauth Customer
+    {
+      "DownstreamPathTemplate": "/api/Customers",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateCustomerHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Customers",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update Customer
+    {
+      "DownstreamPathTemplate": "/api/Customers/{id}/{status}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateCustomerStatusHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Customers/{id}/{status}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update status of Customer
+    {
+      "DownstreamPathTemplate": "/api/Customers/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "DeleteCustomerHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Customers/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    }, /// Delete Customer
+    {
+      "DownstreamPathTemplate": "/api/Products/all",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllProductsHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Products",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Products
+    {
+      "DownstreamPathTemplate": "/api/Products/all",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllUnauthProductsHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/GetProducts",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Unauthorized Products
+    /*{
+      "DownstreamPathTemplate": "/api/Products/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Products/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    } /// Product */
+    {
+      "DownstreamPathTemplate": "/api/Products/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetProductByIdHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Products/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get Product By Id
+    {
+      "DownstreamPathTemplate": "/api/Products",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreateProductHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Products",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create Product
+    {
+      "DownstreamPathTemplate": "/api/Products",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateProductHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Products",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update Product
+    {
+      "DownstreamPathTemplate": "/api/Products/{id}/{status}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateProductStatusHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Products/{id}/{status}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update status of Product
+    {
+      "DownstreamPathTemplate": "/api/Products/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "DeleteProductHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Products/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    }, /// Delete Product
+    {
+      "DownstreamPathTemplate": "/api/Orders",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllOrdersHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Orders",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Orders
+    {
+      "DownstreamPathTemplate": "/api/Orders/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetOrderByIdHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Orders/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get Product By Id
+    {
+      "DownstreamPathTemplate": "/api/Orders",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreateOrderHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Orders",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create Order
+    {
+      "DownstreamPathTemplate": "/api/Orders/{orderReference}/details",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetOrderByReferenceHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Orders/details/{orderReference}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get order By reference
+    {
+      "DownstreamPathTemplate": "/api/Orders/{id}/{status}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateOrderStatusHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Orders/{id}/{status}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update status of Order
+    {
+      "DownstreamPathTemplate": "/api/Orders/confirm/{orderRef}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "ConfirmOrderHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Orders/confirm/{orderRef}",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Confirm order
+    {
+      "DownstreamPathTemplate": "/api/Invoices",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllInvoicesHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Invoices",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Invoices
+    {
+      "DownstreamPathTemplate": "/api/Invoices",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllUnauthInvoicesHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/GetInvoices",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Unauthorized Invoices
+    {
+      "DownstreamPathTemplate": "/api/Invoices/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetInvoiceByIdHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Invoices/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get Invoice By Id
+    {
+      "DownstreamPathTemplate": "/api/Invoices",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreateInvoiceHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Invoices",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create Invoice
+    {
+      "DownstreamPathTemplate": "/api/Invoices/{invoiceNumber}/details",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetInvoiceByReferenceHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Invoices/details/{invoiceNumber}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get Invoice By reference
+    {
+      "DownstreamPathTemplate": "/api/Invoices/{id}/{status}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateInvoiceStatusHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Invoices/{id}/{status}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update status of Invoice
+    {
+      "DownstreamPathTemplate": "/api/Invoices/confirm/{orderRef}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "ConfirmInvoiceHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Invoices/confirm/{orderRef}",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Confirm Invoice
+    {
+      "DownstreamPathTemplate": "/api/Payments",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllPaymentsHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Payments",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Payments
+    {
+      "DownstreamPathTemplate": "/api/PaymentMethods",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllPaymentMethodsHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/PaymentMethods",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Payment Methods
+    {
+      "DownstreamPathTemplate": "/api/Payments/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetPaymentByIdHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Payments/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get Payment By Id
+    {
+      "DownstreamPathTemplate": "/api/Payments",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreatePaymentHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Payments",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create Payment
+    {
+      "DownstreamPathTemplate": "/api/Payments/{invoiceNumber}/details",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetPaymentByReferenceHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Payments/details/{invoiceNumber}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get Payment By reference
+    {
+      "DownstreamPathTemplate": "/api/Payments/{id}/{status}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdatePaymentStatusHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Payments/{id}/{status}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update status of Payment
+    {
+      "DownstreamPathTemplate": "/api/Payments/confirm/{payReference}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "ConfirmPaymentHandler"
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IDS4",
+        "AllowedScopes": [
+          "fatora.api.gateway"
+        ]
+      },
+      "AddHeadersToRequest": {
+        "Profile_Id": "Claims[client_CustomerRelatedId] > value",
+        "Client_Id": "Claims[client_id] > value"
+      },
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Payments/confirm/{payReference}",
+      "UpstreamHttpMethod": [ "POST" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "IDS4",
+      //  "AllowedScopes": [
+      //    "tharwat.iam.management"
+      //  ]
+      //}
+    }, /// Confirm Payment
+    {
+      "DownstreamPathTemplate": "/api/Payments/Invoice",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "DirectPaymentHandler"
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IDS4",
+        "AllowedScopes": [
+          "fatora.api.gateway"
+        ]
+      },
+      "AddHeadersToRequest": {
+        "Profile_Id": "Claims[client_CustomerRelatedId] > value",
+        "Client_Id": "Claims[client_id] > value"
+      },
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Payments/Invoice",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Direct Payment
+    {
+      "DownstreamPathTemplate": "/api/Transactions/Status/{payReference}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CheckProviderPaymentStatusHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Transactions/Status/{payReference}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Check Payment Status
+    {
+      "DownstreamPathTemplate": "/api/Categories",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllCategoriesHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Categories",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Categories
+    {
+      "DownstreamPathTemplate": "/api/Categories",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllUnauthCategoriesHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/GetCategories",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Unauth Categories
+    {
+      "DownstreamPathTemplate": "/api/Categories",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreateCategoryHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Categories",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create Category
+    {
+      "DownstreamPathTemplate": "/api/Categories/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetCategoryByIdHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Categories/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get Category By Id
+    {
+      "DownstreamPathTemplate": "/api/Categories/{id}/{status}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateCategoryStatusHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Categories/{id}/{status}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update status of Category
+    {
+      "DownstreamPathTemplate": "/api/Categories",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateCategoryHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Categories",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update Category
+    {
+      "DownstreamPathTemplate": "/api/Categories/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "DeleteCategoryHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Categories/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    }, /// Delete Category
+    {
+      "DownstreamPathTemplate": "/api/CategoryTypes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllCategoryTypesHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/CategoryTypes",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All CategoryTypes
+    {
+      "DownstreamPathTemplate": "/api/CategoryTypes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllUnauthCategoryTypesHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/GetCategoryTypes",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Unauthorized CategoryTypes
+    {
+      "DownstreamPathTemplate": "/api/CategoryTypes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreateCategoryTypeHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/CategoryTypes",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create CategoryType
+    {
+      "DownstreamPathTemplate": "/api/CategoryTypes/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetCategoryTypeByIdHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/CategoryTypes/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get CategoryType By Id
+    {
+      "DownstreamPathTemplate": "/api/CategoryTypes/{id}/{status}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateCategoryTypeStatusHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/CategoryTypes/{id}/{status}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update status of CategoryType
+    {
+      "DownstreamPathTemplate": "/api/CategoryTypes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateCategoryTypeHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/CategoryTypes",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update CategoryType
+    {
+      "DownstreamPathTemplate": "/api/CategoryTypes/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "DeleteCategoryTypeHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/CategoryTypes/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    }, /// Delete CategoryType
+    {
+      "DownstreamPathTemplate": "/api/InvoiceParameters",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllInvoiceParametersHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/InvoiceParameters",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All InvoiceParameters
+    {
+      "DownstreamPathTemplate": "/api/InvoiceParameters",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllUnauthInvoiceParametersHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/GetInvoiceParameters",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Unauthorized InvoiceParameters
+    {
+      "DownstreamPathTemplate": "/api/InvoiceParameters",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreateInvoiceParameterHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/InvoiceParameters",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create InvoiceParameter
+    {
+      "DownstreamPathTemplate": "/api/InvoiceParameters/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetInvoiceParameterByIdHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/InvoiceParameters/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get InvoiceParameter By Id
+    {
+      "DownstreamPathTemplate": "/api/InvoiceParameters/{id}/{status}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateInvoiceParameterStatusHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/InvoiceParameters/{id}/{status}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update status of InvoiceParameter
+    {
+      "DownstreamPathTemplate": "/api/InvoiceParameters",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdateInvoiceParameterHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/InvoiceParameters",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update InvoiceParameter
+    {
+      "DownstreamPathTemplate": "/api/InvoiceParameters/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "DeleteInvoiceParameterHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/InvoiceParameters/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    }, /// Delete InvoiceParameter
+    {
+      "DownstreamPathTemplate": "/api/Statistics",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetStatisticsHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Statistics",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get Statistics
+    {
+      "DownstreamPathTemplate": "/api/Statistics",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetUnauthStatisticsHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/GetStatistics",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get Unauthorized Statistics
+    {
+      "DownstreamPathTemplate": "/api/RequestPayments",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllRequestPaymentsHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/RequestPayments",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All RequestPayments
+    {
+      "DownstreamPathTemplate": "/api/RequestPayments",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllUnauthRequestPaymentsHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/GetRequestPayments",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Unauthorized RequestPayments
+    {
+      "DownstreamPathTemplate": "/api/RequestPayments/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetRequestPaymentByIdHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/RequestPayments/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get RequestPayment By Id
+    {
+      "DownstreamPathTemplate": "/api/RequestPayments",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "CreateRequestPaymentHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/RequestPayments",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Create RequestPayment
+    {
+      "DownstreamPathTemplate": "/api/RequestPayments/{payRef}/details",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetRequestPaymentByReferenceHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/RequestPayments/details/{payRef}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get RequestPayment By reference
+    {
+      "DownstreamPathTemplate": "/api/RequestPayments/{id}/{status}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "UpdatePaymentRequestStatusHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/RequestPayments/{id}/{status}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    }, /// Update status of RequestPayments
+    {
+      "DownstreamPathTemplate": "/api/RequestPayments/confirm/{payRef}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "ConfirmRequestPaymentHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/RequestPayments/confirm/{payRef}",
+      "UpstreamHttpMethod": [ "POST" ]
+    }, /// Confirm RequestPayments
+    {
+      "DownstreamPathTemplate": "/api/Logs",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllLogsHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/Logs",
+      "UpstreamHttpMethod": [ "GET" ]
+    }, /// Get All Logs
+    {
+      "DownstreamPathTemplate": "/api/AuditLogs",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44477
+        }
+      ],
+      "DelegatingHandlers": [
+        "GetAllAuditLogHandler"
+      ],
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": true
+      },
+      "UpstreamPathTemplate": "/V1/AuditLogs",
+      "UpstreamHttpMethod": [ "GET" ]
+    } /// Get All AuditLogs
+
+  ]
+}

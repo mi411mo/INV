@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+option csharp_namespace = "Infrastructure";
+
+package greet;
+
+// The greeting service definition.
+service Rating {
+
+  rpc GetServiceRating (ServiceRatingCommand) returns (ServiceRatingMainReply);
+  
+  rpc GetFees (ServiceRatingCommand) returns (ServiceRatingMainReply);
+
+  rpc GetCommision (ServiceRatingCommand) returns (ServiceRatingMainReply);
+  
+  rpc GetExtra (ServiceRatingCommand) returns (ServiceRatingMainReply);
+
+}
+
+
+
+// The request message containing the reservation request.
+message ServiceRatingCommand {
+	string CustomerProfileId = 1;
+	string ProviderProfileId = 2;
+	string CurrencyCode = 3; 
+	string Amount = 4;
+	string CompanyCode = 5;
+	string ServiceCode = 6;
+	string ServiceType = 7;
+	string TransactionDate = 8;
+}
+
+message DetailsReply {
+	string Amount = 1;
+	string Name = 2;
+	string Currency =3;
+	string CalculationType = 4;
+	string ServideRatingCode  = 5;
+	string RatingPoliceName =6;
+	string Id =7;
+}
+
+message ServiceRatingMainReply {
+	string Success = 1;
+	string ResponseCode = 2;
+	string Message = 3;  
+	ServiceRatingReply Data = 4;  
+}
+message ServiceRatingReply {
+	string TotalAmount = 1;
+	string Currency = 2;
+	string Amount = 3;
+	string Commission = 4;
+	string CommissionCurrency = 5;
+	string Fees = 6;
+	string FeesCurrency = 7;
+	string Extra = 8;
+	string ExtraCurrency = 9;
+	repeated  DetailsReply FeesDetails = 10;
+	repeated  DetailsReply CommissionDetails = 11;
+	repeated  DetailsReply ExtraDetails = 12;
+	string TotalRate = 13;
+}
+
+
+
+
+

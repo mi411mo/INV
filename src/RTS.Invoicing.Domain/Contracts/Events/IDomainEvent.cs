@@ -2,6 +2,9 @@ using System;
 
 namespace RTS.Invoicing.Domain.Contracts.Events
 {
+    /// <summary>
+    /// Represents a domain event that captures a significant occurrence within the domain.
+    /// </summary>
     public interface IDomainEvent
     {
         /// <summary>

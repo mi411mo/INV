@@ -7,7 +7,7 @@ namespace RTS.Invoicing.Domain.ValueObjects
     /// <summary>
     /// Represents an Email address as a Value Object, ensuring immutability and enforcing validation rules upon creation.
     /// </summary>
-    public record Email
+    public sealed record Email
     {
         /// <summary>
         /// Gets the validated, immutable string value of the email address.
@@ -33,7 +33,7 @@ namespace RTS.Invoicing.Domain.ValueObjects
         {
             if (string.IsNullOrWhiteSpace(email))
             {
-                return Result.Failure<Email>(new Error("Email.Empty", "Email is empty."));
+                return Result.Failure<Email>(EmailErrors.Empty);
             }
 
             if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase))

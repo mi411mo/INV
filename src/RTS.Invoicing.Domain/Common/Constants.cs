@@ -1,5 +1,9 @@
 namespace RTS.Invoicing.Domain.Common
 {
+    /// <summary>
+    /// Provides a collection of constant values used to define limits and constraints for various input fields in the
+    /// application.
+    /// </summary>
     public static class Constants
     {
         /// <summary>

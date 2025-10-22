@@ -10,6 +10,9 @@ namespace RTS.Invoicing.Domain.Entities.Customers
     /// </summary>
     public class Person : AuditableEntity<PersonId>
     {
+        /// <summary>
+        /// Parameterless constructor reserved for ORM and serializer use.
+        /// </summary>
         private Person()
             : base()
         {
@@ -24,7 +27,15 @@ namespace RTS.Invoicing.Domain.Entities.Customers
         /// <param name="englishName">Person English name.</param>
         /// <param name="email">The email.</param>
         /// <param name="phone">The phone.</param>
-        /// <param name="address">The address.</param>
+        /// <summary>
+        /// Initializes a new instance of <see cref="Person"/> with the specified identifier and field values and sets CreatedAt to UTC now.
+        /// </summary>
+        /// <param name="id">The person's identifier.</param>
+        /// <param name="arabicName">The person's Arabic name.</param>
+        /// <param name="englishName">The person's English name.</param>
+        /// <param name="email">The person's email value object.</param>
+        /// <param name="phone">The person's phone number.</param>
+        /// <param name="address">The person's address.</param>
         private Person(
             PersonId id,
             string arabicName,
@@ -76,7 +87,12 @@ namespace RTS.Invoicing.Domain.Entities.Customers
         /// <param name="email">The email.</param>
         /// <param name="phone">The phone.</param>
         /// <param name="address">The address.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Creates a new Person after validating that both Arabic and English names are provided.
+        /// </summary>
+        /// <returns>
+        /// A successful Result containing the created Person when both names are valid; otherwise a failed Result with PersonErrors.InvalidName.
+        /// </returns>
         public static Result<Person> Create(
             string arabicName,
             string englishName,

@@ -16,7 +16,10 @@ namespace RTS.Invoicing.Domain.Common
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRoot{TId}"/> class.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <summary>
+        /// Initializes a new instance of the AggregateRoot&lt;TId&gt; class with the specified identifier.
+        /// </summary>
+        /// <param name="id">The aggregate's identifier.</param>
         protected AggregateRoot(TId id)
             : base(id)
         {
@@ -24,6 +27,8 @@ namespace RTS.Invoicing.Domain.Common
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRoot{TId}"/> class.
+        /// <summary>
+        /// Initializes a new instance of the AggregateRoot&lt;TId&gt; class for use by derived types.
         /// </summary>
         protected AggregateRoot()
             : base()
@@ -39,13 +44,18 @@ namespace RTS.Invoicing.Domain.Common
         /// <summary>
         /// Adds the domain event into the domain event collection.
         /// </summary>
-        /// <param name="domainEvent">The domain event.</param>
+        /// <summary>
+            /// Adds a domain event to the aggregate's list of pending events.
+            /// </summary>
+            /// <param name="domainEvent">The domain event to record for later publication.</param>
         protected void RaiseDomainEvent(IDomainEvent domainEvent)
             => _domainEvents.Add(domainEvent);
 
         /// <summary>
         /// Clears the domain events.
-        /// </summary>
+        /// <summary>
+            /// Removes all domain events recorded by the aggregate.
+            /// </summary>
         protected void ClearDomainEvents()
             => _domainEvents.Clear();
     }

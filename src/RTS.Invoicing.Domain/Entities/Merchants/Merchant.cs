@@ -16,6 +16,8 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Merchant"/> class.
+        /// <summary>
+        /// Parameterless constructor used only by ORMs and serializers to materialize the entity.
         /// </summary>
         private Merchant()
             : base()
@@ -29,7 +31,13 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
         /// <param name="id">The identifier.</param>
         /// <param name="arabicName">Merchant Arabic name.</param>
         /// <param name="englishName">Merchant English name.</param>
-        /// <param name="defaultCurrency">The default currency code.</param>
+        /// <summary>
+        /// Initializes a new Merchant with the specified identity, Arabic and English names, and default currency.
+        /// </summary>
+        /// <param name="id">The unique identifier of the merchant.</param>
+        /// <param name="arabicName">The merchant's Arabic display name.</param>
+        /// <param name="englishName">The merchant's English display name.</param>
+        /// <param name="defaultCurrency">The merchant's default currency.</param>
         public Merchant(
             MerchantId id,
             string arabicName,
@@ -82,7 +90,16 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
         /// <param name="arabicName">Merchant Arabic name.</param>
         /// <param name="englishName">Merchant English name.</param>
         /// <param name="defaultCurrencyCode">The default currency code.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Creates a new Merchant with the given Arabic and English names and the specified default currency.
+        /// </summary>
+        /// <param name="arabicName">The merchant's Arabic name.</param>
+        /// <param name="englishName">The merchant's English name; must not be null, empty, or whitespace.</param>
+        /// <param name="defaultCurrencyCode">The ISO currency code to use as the merchant's default currency.</param>
+        /// <returns>
+        /// A Result containing the created Merchant on success; a failure Result with error code "Merchant.Name.Empty" if <paramref name="englishName"/> is null/empty/whitespace,
+        /// or the underlying currency creation error if <paramref name="defaultCurrencyCode"/> is invalid.
+        /// </returns>
         public static Result<Merchant> Create(string arabicName, string englishName, string defaultCurrencyCode)
         {
             if (string.IsNullOrWhiteSpace(englishName))
@@ -102,7 +119,10 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
         /// <summary>
         /// Updates the configuration settings for the merchant.
         /// </summary>
-        /// <param name="settingsAsJson">A string, typically JSON, representing the configuration.</param>
+        /// <summary>
+        /// Updates the merchant's configuration settings when provided with a JSON object or array string.
+        /// </summary>
+        /// <param name="settingsAsJson">Configuration as a JSON string; ignored if null, empty, or whitespace. The value is assigned only if it appears to be a JSON object (starts with '{' and ends with '}') or a JSON array (starts with '[' and ends with ']').</param>
         public void UpdateConfigurationSettings(string settingsAsJson)
         {
             if (string.IsNullOrWhiteSpace(settingsAsJson))
@@ -125,7 +145,11 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
         /// Changes the merchant default currency.
         /// </summary>
         /// <param name="newDefaultCurrencyCode">The new default currency code.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Change the merchant's default currency to the currency identified by the provided currency code.
+        /// </summary>
+        /// <param name="newDefaultCurrencyCode">The ISO code of the new default currency.</param>
+        /// <returns>`Success` result if the currency was updated or the code matches the current currency; `Failure` result containing the currency creation error if the provided code is invalid.</returns>
         public Result ChangeDefaultCurrency(string newDefaultCurrencyCode)
         {
             if (newDefaultCurrencyCode.Equals(DefaultCurrency.Code, StringComparison.OrdinalIgnoreCase))
@@ -151,7 +175,14 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
         /// <param name="code">The tax code.</param>
         /// <param name="rate">The tax rate.</param>
         /// <param name="note">The note.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Adds a tax to the merchant after validating that the tax code is unique and the rate is within allowed bounds.
+        /// </summary>
+        /// <param name="name">The display name of the tax.</param>
+        /// <param name="code">The tax code; comparison is case-insensitive for duplication checks.</param>
+        /// <param name="rate">The tax rate as a percentage; must be between 0 and 100 inclusive.</param>
+        /// <param name="note">An optional note or description for the tax.</param>
+        /// <returns>`Result` indicating success, or failure with `TaxErrors.DuplicatedCode`, `TaxErrors.RateOutOfRange`, or the error returned by `Tax.Create`.</returns>
         public Result AddTax(
             string name,
             string code,
@@ -183,7 +214,12 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
         /// </summary>
         /// <param name="name">The custom field name.</param>
         /// <param name="type">The custom field data type.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Adds a new custom field to the merchant when the provided name is not already used.
+        /// </summary>
+        /// <param name="name">The display name of the custom field.</param>
+        /// <param name="type">The custom field's data type.</param>
+        /// <returns>`Result` indicating success, `Failure` with `CustomFieldErrors.DuplicatedCustomField` if a field with the same name exists, or `Failure` with another domain error describing why creation of the custom field failed.</returns>
         public Result AddCustomField(string name, CustomFieldsTypes type)
         {
             if (_customFields.Any(t => t.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
@@ -201,6 +237,12 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
             return Result.Success();
         }
 
+        /// <summary>
+        /// Updates the name of a merchant's custom field identified by the given id.
+        /// </summary>
+        /// <param name="customFieldId">Identifier of the custom field to update.</param>
+        /// <param name="newName">New name to assign to the custom field.</param>
+        /// <returns>`Result` indicating success, or failure with one of: `CustomFieldErrors.NotFoundInMerchantCustomFields`, `CustomFieldErrors.InvalidName`, `CustomFieldErrors.DuplicatedCustomField`, or the error produced by the custom field update.</returns>
         public Result UpdateCustomField(CustomFieldId customFieldId, string newName)
         {
             var customField = _customFields.FirstOrDefault(t => t.Id == customFieldId);
@@ -232,7 +274,11 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
         /// Generates the next invoice number.
         /// </summary>
         /// <param name="prefix">The prefix.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Generate the next invoice number for the specified prefix, creating a sequence if one does not exist.
+        /// </summary>
+        /// <param name="prefix">The invoice prefix to use (case-insensitive).</param>
+        /// <returns>The invoice identifier formatted as the prefix followed by a 6-digit zero-padded sequence (for example, "INV-000001"). Returns a failure Result if creating or retrieving the sequence fails.</returns>
         public Result<string> GenerateNextInvoiceNumber(string prefix)
         {
             var sequence = _invoiceSequences
@@ -257,6 +303,8 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
 
         /// <summary>
         /// Activates this merchant.
+        /// <summary>
+        /// Marks the merchant as active.
         /// </summary>
         public void Activate()
         {
@@ -265,6 +313,8 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
 
         /// <summary>
         /// Deactivates this merchant.
+        /// <summary>
+        /// Marks the merchant as inactive by setting its IsActive flag to false.
         /// </summary>
         public void Deactivate()
         {
@@ -279,7 +329,15 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
         /// <param name="newCode">The tax new code.</param>
         /// <param name="newRate">The tax new rate.</param>
         /// <param name="note">The note.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Updates an existing tax's name, code, rate and optionally its notes for this merchant.
+        /// </summary>
+        /// <param name="taxId">Identifier of the tax to update.</param>
+        /// <param name="newName">The new name for the tax.</param>
+        /// <param name="newCode">The new code for the tax.</param>
+        /// <param name="newRate">The new tax rate; must be between 0 and 100 inclusive.</param>
+        /// <param name="note">Optional notes to set on the tax; if null, existing notes are preserved.</param>
+        /// <returns>`Success` if the tax was updated; a failure `Result` with a domain error when the tax is not found, the code is duplicated, the rate is out of range, or the underlying tax update fails.</returns>
         public Result UpdateTaxDetails(
             TaxId taxId,
             string newName,

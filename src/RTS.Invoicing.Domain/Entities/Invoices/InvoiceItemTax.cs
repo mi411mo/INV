@@ -12,12 +12,21 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InvoiceItemTax"/> entity.
+        /// <summary>
+        /// Initializes a new instance of the InvoiceItemTax class required by ORM/EF materializers.
         /// </summary>
         private InvoiceItemTax()
             : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="InvoiceItemTax"/> with the given invoice item and tax identifiers, the tax rate that was applied, and the calculated tax amount.
+        /// </summary>
+        /// <param name="invoiceItemId">Identifier of the invoice item this tax is associated with.</param>
+        /// <param name="taxId">Identifier of the tax applied to the invoice item.</param>
+        /// <param name="taxRateApplied">The tax rate (percentage) that was applied when the invoice was created.</param>
+        /// <param name="taxAmount">The monetary amount of tax calculated for the invoice item.</param>
         private InvoiceItemTax(
             InvoiceItemId invoiceItemId,
             TaxId taxId,
@@ -61,7 +70,13 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <param name="item">The parent invoice item.</param>
         /// <param name="tax">The tax to apply.</param>
         /// <param name="currency">The currency of the invoice.</param>
-        /// <returns>A new, valid InvoiceItemTax object.</returns>
+        /// <summary>
+        /// Create an InvoiceItemTax for the specified invoice item and tax using the provided currency.
+        /// </summary>
+        /// <param name="item">The invoice item from which taxable amount and identifiers are taken.</param>
+        /// <param name="tax">The tax whose rate will be applied to the invoice item.</param>
+        /// <param name="currency">The currency code used to construct the tax amount (e.g., ISO currency code).</param>
+        /// <returns>A Result containing the newly created InvoiceItemTax with the tax amount computed from the item's taxable amount (item total minus discount, clamped to zero) and the tax rate (stored as 15.00 for 15%).</returns>
         internal static Result<InvoiceItemTax> Create(InvoiceItem item, Tax tax, string currency)
         {
             var taxableAmount = item.TotalPrice.Amount - item.DiscountAmount.Amount;

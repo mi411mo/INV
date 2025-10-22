@@ -11,6 +11,8 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
     {
         /// <summary>
         /// Prevents a default instance of the <see cref="InvoiceSequence"/> class from being created.
+        /// <summary>
+        /// Parameterless constructor reserved for ORM usage only; prevents external default instantiation.
         /// </summary>
         private InvoiceSequence()
             : base()
@@ -23,7 +25,12 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="merchantId">The merchant identifier.</param>
-        /// <param name="prefix">The prefix.</param>
+        /// <summary>
+        /// Initializes a new InvoiceSequence with the specified identifier, merchant, and prefix, and sets the sequence's LastValue to 0.
+        /// </summary>
+        /// <param name="id">The unique identifier for the invoice sequence.</param>
+        /// <param name="merchantId">The identifier of the merchant that owns this sequence.</param>
+        /// <param name="prefix">The static text prefix used when composing invoice numbers (for example, "INV-").</param>
         private InvoiceSequence(
             InvoiceSequenceId id,
             MerchantId merchantId,
@@ -63,7 +70,12 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
         /// </summary>
         /// <param name="merchantId">The merchant identifier.</param>
         /// <param name="prefix">The prefix.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Creates a new InvoiceSequence for the given merchant using the provided prefix after validating the prefix.
+        /// </summary>
+        /// <param name="merchantId">Identifier of the merchant that will own the invoice sequence.</param>
+        /// <param name="prefix">Static text prefix to prepend to generated invoice numbers.</param>
+        /// <returns>A Result containing the created InvoiceSequence with LastValue initialized to 0 on success; a failure Result with <see cref="InvoiceSequenceErrors.PrefixRequired"/> if <paramref name="prefix"/> is null, empty, or whitespace, or with <see cref="InvoiceSequenceErrors.PrefixTooLong"/> if <paramref name="prefix"/> exceeds <c>Constants.MAX_PREFIX_CHARACTERS</c>.</returns>
         public static Result<InvoiceSequence> Create(
             MerchantId merchantId,
             string prefix
@@ -86,7 +98,10 @@ namespace RTS.Invoicing.Domain.Entities.Merchants
         /// <summary>
         /// Gets the next sequence.
         /// </summary>
-        /// <returns></returns>
+        /// <summary>
+        /// Advances LastValue by one and returns the next numeric sequence for invoices.
+        /// </summary>
+        /// <returns>The next sequence value after incrementing LastValue.</returns>
         public int GetNextSequence()
         {
             return ++LastValue;

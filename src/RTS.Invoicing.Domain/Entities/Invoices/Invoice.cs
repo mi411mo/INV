@@ -22,6 +22,8 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Invoice"/> aggregate root.
+        /// <summary>
+        /// Parameterless constructor used by the ORM for entity materialization only.
         /// </summary>
         private Invoice()
             : base()
@@ -39,7 +41,17 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <param name="issueDate">The issue date.</param>
         /// <param name="dueDate">The due date.</param>
         /// <param name="currencyCode">The currency code.</param>
-        /// <param name="exchangeRate">The exchange rate.</param>
+        /// <summary>
+        /// Initializes a new Invoice with the given identifiers, invoice number, dates, currency code, and exchange rate, and sets default state and zeroed monetary totals.
+        /// </summary>
+        /// <param name="id">The aggregate identifier for the invoice.</param>
+        /// <param name="merchantId">The merchant that owns the invoice.</param>
+        /// <param name="customerId">The customer billed by the invoice.</param>
+        /// <param name="invoiceNumber">The invoice number value object.</param>
+        /// <param name="issueDate">The invoice issue date.</param>
+        /// <param name="dueDate">The invoice due date.</param>
+        /// <param name="currencyCode">The ISO currency code used for monetary values.</param>
+        /// <param name="exchangeRate">The exchange rate applicable to the invoice.</param>
         private Invoice(
             InvoiceId id,
             MerchantId merchantId,
@@ -203,6 +215,17 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <value>The invoice custom fields.</value>
         public IReadOnlyList<InvoiceCustomField> InvoiceCustomFields => _invoiceCustomFields.AsReadOnly();
 
+        /// <summary>
+        /// Create a new Invoice after validating the issue/due dates and the currency.
+        /// </summary>
+        /// <param name="merchantId">Identifier of the merchant that owns the invoice.</param>
+        /// <param name="customerId">Identifier of the customer the invoice is issued to.</param>
+        /// <param name="invoiceNumber">Invoice number to assign to the new invoice.</param>
+        /// <param name="issueDate">Date the invoice is issued; must not be in the future.</param>
+        /// <param name="dueDate">Date the invoice is due; must not be earlier than <paramref name="issueDate"/>.</param>
+        /// <param name="currency">ISO currency code for the invoice; must be a valid currency.</param>
+        /// <param name="exchangeRate">Optional exchange rate for the invoice currency; defaults to 0.0.</param>
+        /// <returns>A <see cref="Result{Invoice}"/> containing the created <see cref="Invoice"/> on success; a failure result with a domain error code on validation or currency failures.</returns>
         public static Result<Invoice> Create(
             MerchantId merchantId,
             CustomerId customerId,
@@ -249,7 +272,12 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <param name="dueDays">Due days.</param>
         /// <param name="currencyCode">The currency code.</param>
         /// <param name="exchangeRate">The exchange rate.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Creates a standard invoice whose due date is computed by adding <paramref name="dueDays"/> to <paramref name="issueDate"/>.
+        /// </summary>
+        /// <param name="dueDays">Number of days after the issue date when the invoice is due; must be zero or greater.</param>
+        /// <param name="exchangeRate">Exchange rate to associate with the invoice; defaults to 0.0m.</param>
+        /// <returns>A Result containing the created Invoice on success, or a failure Result (e.g., InvoiceErrors.InvalidDueDays) if validation fails.</returns>
         public static Result<Invoice> CreateStandardInvoice(
             MerchantId merchantId,
             CustomerId customerId,
@@ -282,7 +310,21 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
 
         /// <summary>
         /// Adds an item to the invoice and recalculates totals.
+        /// <summary>
+        /// Adds a new invoice item to the invoice and updates invoice totals.
         /// </summary>
+        /// <param name="itemOrder">Display order for the new item within the invoice.</param>
+        /// <param name="description">Description of the invoice item.</param>
+        /// <param name="quantity">Quantity of the item; must be greater than zero.</param>
+        /// <param name="unitPrice">Unit price for the item; must be greater than or equal to zero.</param>
+        /// <param name="discount">Per-item discount amount in the invoice currency (defaults to 0).</param>
+        /// <param name="taxes">Optional collection of taxes to apply to the created item.</param>
+        /// <returns>
+        /// A Result indicating success or failure. Failure reasons include:
+        /// - InvoiceErrors.NotDraft when the invoice is not in Draft status.
+        /// - InvoiceItemErrors.InvalidAmount when quantity or unit price are invalid.
+        /// - Any validation errors returned by InvoiceItem.Create.
+        /// </returns>
         public Result AddItem(
             short itemOrder,
             string description,
@@ -334,7 +376,11 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// Removes the invoice item from the.
         /// </summary>
         /// <param name="itemId">The item identifier.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Removes the invoice item with the specified identifier from the invoice.
+        /// </summary>
+        /// <param name="itemId">Identifier of the invoice item to remove.</param>
+        /// <returns>A <see cref="Result"/> indicating success, or a failure result with <see cref="InvoiceErrors.NotDraft"/> if the invoice is not in Draft status, or <see cref="InvoiceErrors.ItemNotFound"/> if no matching item exists.</returns>
         public Result RemoveItem(InvoiceItemId itemId)
         {
             if (Status != InvoiceStatus.Draft)
@@ -364,7 +410,16 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <param name="quantity">The quantity.</param>
         /// <param name="unitPrice">The unit price.</param>
         /// <param name="discountAmount">The discount amount.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Updates the specified invoice item with the provided order, description, quantity, unit price, and discount when the invoice is in Draft.
+        /// </summary>
+        /// <param name="itemId">Identifier of the invoice item to update.</param>
+        /// <param name="itemOrder">New display/order position for the item.</param>
+        /// <param name="description">New description for the item.</param>
+        /// <param name="quantity">New quantity for the item (must be greater than zero for a valid update).</param>
+        /// <param name="unitPrice">New unit price for the item.</param>
+        /// <param name="discountAmount">New discount amount applied to the item.</param>
+        /// <returns>`Success` if the item was updated (and totals were recalculated); `Failure` with `InvoiceErrors.NotDraft` if the invoice is not in Draft, `InvoiceErrors.ItemNotFound` if the item does not exist, or the underlying item update failure if the item validation fails.</returns>
         public Result UpdateItem(
             InvoiceItemId itemId,
             short itemOrder,
@@ -399,7 +454,14 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// </summary>
         /// <param name="itemId">The invoice item identifier.</param>
         /// <param name="taxes">Taxes to be applied.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Applies the specified taxes to a single invoice item and recalculates invoice totals.
+        /// </summary>
+        /// <param name="itemId">The identifier of the invoice item to which taxes will be applied.</param>
+        /// <param name="taxes">The taxes to apply to the specified item.</param>
+        /// <returns>A Result indicating success, or a failure with
+        /// InvoiceErrors.NotDraft if the invoice is not in Draft status, or
+        /// InvoiceErrors.ItemNotFound if no item with the given id exists.</returns>
         public Result ApplyTaxForInvoiceItem(InvoiceItemId itemId, IEnumerable<Tax> taxes)
         {
             if (Status != InvoiceStatus.Draft)
@@ -425,7 +487,11 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
 
         /// <summary>
         /// Applies a discount to the entire invoice.
+        /// <summary>
+        /// Sets the invoice-level discount to the specified non-negative amount (in the invoice currency) and recalculates totals.
         /// </summary>
+        /// <param name="discountAmount">The discount amount in the invoice currency; must be greater than or equal to 0.</param>
+        /// <returns>`Result` indicating success, or failure with `InvoiceErrors.NotDraft` if the invoice is not in Draft state, or `InvoiceErrors.InvalidDiscountAmount` if the amount is negative.</returns>
         public Result ApplyInvoiceDiscount(decimal discountAmount)
         {
             if (Status != InvoiceStatus.Draft)
@@ -446,7 +512,10 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <summary>
         /// Updates the invoice notes only if it is Draft.
         /// </summary>
-        /// <param name="notes">The notes.</param>
+        /// <summary>
+        /// Update the invoice's notes when the invoice is in Draft status.
+        /// </summary>
+        /// <param name="notes">The new notes text; may be null to clear existing notes.</param>
         public void UpdateNotes(string? notes)
         {
             if (Status == InvoiceStatus.Draft)
@@ -457,7 +526,10 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
 
         /// <summary>
         /// Marks the invoice as sent, finalizing it for payment.
+        /// <summary>
+        /// Marks the invoice as sent and records the send time when it is in Draft and has at least one item.
         /// </summary>
+        /// <returns>`Result` indicating the outcome: success when the invoice was moved to Sent and IssueDate set to the current UTC time; `Failure(InvoiceErrors.NotDraft)` if the invoice is not in Draft; `Failure(InvoiceErrors.CannotSendEmptyInvoice)` if the invoice has no items.</returns>
         public Result MarkAsSent()
         {
             if (Status != InvoiceStatus.Draft)
@@ -478,7 +550,11 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <summary>
         /// Checks the invoice status against the current date and marks it as overdue if necessary.
         /// This should be called by a background process or application service.
+        /// <summary>
+        /// Mark the invoice as overdue if the provided date is after the due date and the invoice is in a sent or partially paid state.
         /// </summary>
+        /// <param name="currentDate">The date to compare against the invoice's due date.</param>
+        /// <returns>A success <see cref="Result"/>.</returns>
         public Result MarkAsOverdue(DateTime currentDate)
         {
             if (currentDate <= DueDate)
@@ -497,7 +573,11 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <summary>
         /// Applies a payment to the invoice, updating the AmountPaid and Status.
         /// This replaces the simple MarkAsPaid methods.
+        /// <summary>
+        /// Applies a payment to the invoice and updates AmountPaid and the invoice Status accordingly.
         /// </summary>
+        /// <param name="paymentAmount">The payment to apply in the invoice currency; amount must be greater than zero.</param>
+        /// <returns>`Success` when the payment is applied; `Failure(InvoiceErrors.InvalidStateForPayment)` if the invoice is in Draft, Paid, or Void state, or `Failure(InvoiceErrors.InvalidPaymentAmount)` if the payment amount is not greater than zero.</returns>
         public Result ApplyPayment(Money paymentAmount)
         {
             if (Status is InvoiceStatus.Draft or InvoiceStatus.Paid or InvoiceStatus.Void)
@@ -527,7 +607,10 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
 
         /// <summary>
         /// Voids the invoice, making it non-payable.
+        /// <summary>
+        /// Marks the invoice as void and soft-deletes it unless the invoice is paid or partially paid.
         /// </summary>
+        /// <returns>`Result.Success()` when the invoice is marked void; `Result.Failure(InvoiceErrors.CannotVoidPaidInvoice)` if the invoice is Paid or PartiallyPaid.</returns>
         public Result Void()
         {
             if (Status is InvoiceStatus.Paid or InvoiceStatus.PartiallyPaid)
@@ -545,7 +628,20 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// The aggregate root is responsible for enforcing type validation based on the CustomField definition.
         /// </summary>
         /// <param name="customField">The CustomField definition (retrieved from a repository).</param>
-        /// <param name="value">The value to set, as a string.</param>
+        /// <summary>
+        /// Sets or updates the value of a custom field on this invoice when the invoice is in Draft state.
+        /// </summary>
+        /// <param name="customField">The custom field definition to apply; must belong to the same merchant as the invoice.</param>
+        /// <param name="value">The value to assign to the custom field, represented as a string.</param>
+        /// <returns>
+        /// A <see cref="Result"/> indicating success or failure. Possible failures include:
+        /// <list type="bullet">
+        /// <item><description><see cref="InvoiceErrors.NotDraft"/> if the invoice is not in Draft state.</description></item>
+        /// <item><description><see cref="CustomFieldErrors.MerchantMismatch"/> if the custom field's merchant does not match the invoice's merchant.</description></item>
+        /// <item><description><see cref="InvoiceCustomFieldErrors.InvalidValueType"/> if the value is not valid for the custom field's type.</description></item>
+        /// <item><description>Any failure returned by creating or updating the underlying <see cref="InvoiceCustomField"/>.</description></item>
+        /// </list>
+        /// </returns>
         public Result SetCustomFieldValue(CustomField customField, string value)
         {
             if (Status != InvoiceStatus.Draft)
@@ -585,7 +681,11 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// Updates the exchange rate of a Draft invoice.
         /// </summary>
         /// <param name="newRate">The new exchange rate.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Updates the invoice's exchange rate when the invoice is in the Draft state.
+        /// </summary>
+        /// <param name="newRate">The new exchange rate to apply; must be greater than zero.</param>
+        /// <returns>A Result indicating success, or failure with `InvoiceErrors.NotDraft` if the invoice is not Draft, or `InvoiceErrors.InvalidExchangeRate` if `newRate` is less than or equal to zero.</returns>
         public Result UpdateExchangeRate(decimal newRate)
         {
             if (Status != InvoiceStatus.Draft)
@@ -607,7 +707,12 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <summary>
         /// Recalculates Subtotal, TotalTax, and TotalAmount based on current items and taxes.
         /// This is the single source of truth for invoice calculations.
+        /// <summary>
+        /// Recalculates monetary totals for the invoice based on current items, their taxes, and the invoice discount.
         /// </summary>
+        /// <remarks>
+        /// Updates SubTotal, TotalTax, and TotalAmount using the invoice's currency and current invoice items and discounts.
+        /// </remarks>
         private void RecalculateTotals()
         {
             var currency = SubTotal.Currency;
@@ -627,7 +732,12 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
 
         /// <summary>
         /// Private helper to validate the string value against the required data type.
+        /// <summary>
+        /// Determine whether a custom field string value conforms to the specified CustomFieldsTypes.
         /// </summary>
+        /// <param name="value">The string representation of the custom field value to validate; empty or null is considered valid.</param>
+        /// <param name="type">The expected custom field type to validate against.</param>
+        /// <returns>`true` if the value is null or empty or successfully parses to the expected type; `false` otherwise.</returns>
         private static bool IsValueValidForType(string value, CustomFieldsTypes type)
         {
             if (string.IsNullOrEmpty(value))

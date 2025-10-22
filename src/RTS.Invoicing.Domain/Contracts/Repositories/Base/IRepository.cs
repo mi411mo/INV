@@ -16,7 +16,11 @@ namespace RTS.Invoicing.Domain.Contracts.Repositories.Base
         /// </summary>
         /// <param name="id">The unique identifier of the entity (of type long).</param>
         /// <param name="cancellationToken">A token to monitor for cancellation requests during the asynchronous operation.</param>
-        /// <returns>A <see cref="Task"/> returning a <see cref="Result{T}"/> containing the entity on success, or an error on failure (e.g., Not Found).</returns>
+        /// <summary>
+/// Retrieves an entity by its long primary identifier.
+/// </summary>
+/// <param name="id">The primary identifier of the entity to retrieve.</param>
+/// <returns>A <see cref="Result{TEntity}"/> containing the entity if found; otherwise a <see cref="Result{TEntity}"/> containing an error (for example, Not Found).</returns>
         public Task<Result<TEntity>> GetByIdAsync(long id, CancellationToken cancellationToken);
 
         /// <summary>
@@ -24,7 +28,12 @@ namespace RTS.Invoicing.Domain.Contracts.Repositories.Base
         /// </summary>
         /// <param name="entity">An instance of the entity type used to define specific query criteria or filters (e.g., retrieving all InvoiceItems associated with a specific Invoice).</param>
         /// <param name="cancellationToken">A token to monitor for cancellation requests during the asynchronous operation.</param>
-        /// <returns>A <see cref="Task"/> returning a <see cref="Result{T}"/> containing a collection of entities on success.</returns>
+        /// <summary>
+/// Retrieves entities that match the provided example entity as query criteria.
+/// </summary>
+/// <param name="entity">An example entity used as query criteria to filter the returned collection.</param>
+/// <param name="cancellationToken">A token to cancel the operation.</param>
+/// <returns>A <see cref="Result{T}"/> containing the matching entities on success, or an error result on failure.</returns>
         public Task<Result<IEnumerable<TEntity>>> GetAllAsync(TEntity entity, CancellationToken cancellationToken);
 
         /// <summary>
@@ -32,7 +41,11 @@ namespace RTS.Invoicing.Domain.Contracts.Repositories.Base
         /// </summary>
         /// <param name="entity">The entity instance to add.</param>
         /// <param name="cancellationToken">A token to monitor for cancellation requests during the asynchronous operation.</param>
-        /// <returns>A <see cref="Task"/> returning a parameterless <see cref="Result"/> indicating success or failure of the insertion.</returns>
+        /// <summary>
+/// Persists a new entity to the data store.
+/// </summary>
+/// <param name="entity">The entity to add.</param>
+/// <returns>A <see cref="Result"/> indicating success or failure of the insertion.</returns>
         public Task<Result> AddAsync(TEntity entity, CancellationToken cancellationToken);
 
         /// <summary>
@@ -40,7 +53,12 @@ namespace RTS.Invoicing.Domain.Contracts.Repositories.Base
         /// </summary>
         /// <param name="entity">The entity instance containing the updated data.</param>
         /// <param name="cancellationToken">A token to monitor for cancellation requests during the asynchronous operation.</param>
-        /// <returns>A <see cref="Task"/> returning a parameterless <see cref="Result"/> indicating success or failure of the update operation.</returns>
+        /// <summary>
+/// Updates the specified entity in the data store.
+/// </summary>
+/// <param name="entity">The entity instance containing updated values to persist.</param>
+/// <param name="cancellationToken">Token to cancel the operation.</param>
+/// <returns>A <see cref="Result"/> indicating success or failure of the update operation.</returns>
         public Task<Result> UpdateAsync(TEntity entity, CancellationToken cancellationToken);
 
         /// <summary>
@@ -48,7 +66,11 @@ namespace RTS.Invoicing.Domain.Contracts.Repositories.Base
         /// </summary>
         /// <param name="entity">The entity instance to be deleted.</param>
         /// <param name="cancellationToken">A token to monitor for cancellation requests during the asynchronous operation.</param>
-        /// <returns>A <see cref="Task"/> returning a parameterless <see cref="Result"/> indicating success or failure of the deletion operation.</returns>
+        /// <summary>
+/// Deletes the specified entity from the data store.
+/// </summary>
+/// <param name="entity">The entity to delete.</param>
+/// <returns>The <see cref="Result"/> indicating success or failure of the deletion operation.</returns>
         public Task<Result> DeleteAsync(TEntity entity, CancellationToken cancellationToken);
     }
 }

@@ -18,6 +18,9 @@ namespace RTS.Invoicing.Domain.ValueObjects
         /// Initializes a new, valid instance of the <see cref="Email"/> Value Object. 
         /// It is private to force consumers to use the static <see cref="Create"/> method.
         /// </summary>
+        /// <summary>
+        /// Initializes a new instance of the Email value object with the validated email string.
+        /// </summary>
         /// <param name="value">The validated email string.</param>
         private Email(string value)
         {
@@ -28,7 +31,11 @@ namespace RTS.Invoicing.Domain.ValueObjects
         /// Factory method used to safely instantiate an <see cref="Email"/> object, performing necessary validation.
         /// </summary>
         /// <param name="email">The email string to validate and create.</param>
-        /// <returns>A <see cref="Result{T}"/> containing the new <see cref="Email"/> object on success, or an <see cref="Error"/> on failure.</returns>
+        /// <summary>
+        /// Creates an <see cref="Email"/> value object from the provided string after validating that it is not empty and matches a basic email format.
+        /// </summary>
+        /// <param name="email">The input email address to validate; may be null or whitespace.</param>
+        /// <returns>A <see cref="Result{T}"/> containing the created <see cref="Email"/> on success, or an <see cref="Error"/> describing the validation failure.</returns>
         public static Result<Email> Create(string? email)
         {
             if (string.IsNullOrWhiteSpace(email))

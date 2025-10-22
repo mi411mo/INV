@@ -16,7 +16,12 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InvoiceItem" /> class.
+        /// <summary>
+        /// Initializes a new instance of InvoiceItem for ORM and deserialization purposes.
         /// </summary>
+        /// <remarks>
+        /// This constructor is intended for use by object-relational mappers and serialization; do not use directly in application code.
+        /// </remarks>
         private InvoiceItem()
             : base()
         {
@@ -31,7 +36,10 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <param name="description">The description.</param>
         /// <param name="quantity">The quantity.</param>
         /// <param name="unitPrice">The unit price.</param>
-        /// <param name="discountAmount">The discount amount.</param>
+        /// <summary>
+        /// Initializes a new InvoiceItem with the specified invoice association, order, description, quantity, unit price, and optional discount.
+        /// </summary>
+        /// <param name="discountAmount">The discount amount to apply; if null, defaults to zero using the "YER" currency.</param>
         private InvoiceItem(
             InvoiceId invoiceId,
             short itemOrder,
@@ -107,7 +115,12 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <param name="unitPrice">The item unit price.</param>
         /// <param name="discountAmount">The discount amount.</param>
         /// <param name="currencyCode">The currency code.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Creates and validates a new InvoiceItem instance.
+        /// </summary>
+        /// <param name="discountAmount">Total discount amount to apply to the item (in the specified currency).</param>
+        /// <param name="currencyCode">ISO currency code used for the unit price and discount amounts.</param>
+        /// <returns>A successful Result containing the created InvoiceItem, or a failed Result containing a specific error when validation fails (e.g. InvalidDescription, InvalidQuantity, InvalidUnitPrice, DiscountExceedsTotal) or when the currency cannot be created.</returns>
         public static Result<InvoiceItem> Create(
             InvoiceId invoiceId,
             short itemOrder,
@@ -165,7 +178,15 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <param name="quantity">The quantity.</param>
         /// <param name="unitPrice">The unit price.</param>
         /// <param name="discountAmount">The discount amount.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Update core item details (order, description, quantity, unit price, discount) and recalculate totals.
+        /// </summary>
+        /// <param name="itemOrder">Display/order position of the item within the invoice.</param>
+        /// <param name="description">Customer-facing description of the item.</param>
+        /// <param name="quantity">Quantity of the item; must be greater than zero.</param>
+        /// <param name="unitPrice">Unit price amount in the item's current currency; must be greater than or equal to zero.</param>
+        /// <param name="discountAmount">Discount amount to apply to the item in the item's current currency; must be greater than or equal to zero and not exceed quantity * unitPrice.</param>
+        /// <returns>`Success` when the update and recalculation complete; otherwise a failure `Result` containing the specific validation error.</returns>
         internal Result UpdateDetails(short itemOrder, string description, int quantity, decimal unitPrice, decimal discountAmount)
         {
             if (string.IsNullOrWhiteSpace(description))
@@ -207,7 +228,10 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <summary>
         /// Updates the item order.
         /// </summary>
-        /// <param name="itemOrder">The item order.</param>
+        /// <summary>
+        /// Sets the display/order position of this invoice item.
+        /// </summary>
+        /// <param name="itemOrder">The new display position for the item within the invoice.</param>
         public void UpdateItemOrder(short itemOrder)
         {
             ItemOrder = itemOrder;
@@ -217,7 +241,12 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// Applies a tax to the item.
         /// </summary>
         /// <param name="tax">The tax object.</param>
-        /// <param name="currency">The currency.</param>
+        /// <summary>
+        /// Applies a tax to the invoice item using the specified currency.
+        /// </summary>
+        /// <param name="tax">The tax to apply.</param>
+        /// <param name="currency">The ISO currency code used when creating the invoice item tax.</param>
+        /// <returns>`Result.Success()` if the tax was applied and the item's totals were updated; otherwise a failure `Result` — for example when the tax is already applied or when creating the invoice item tax fails.</returns>
         public Result ApplyTax(Tax tax, string currency)
         {
             if (_taxes.Any(t => t.TaxId == tax.Id))
@@ -240,7 +269,10 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
         /// <summary>
         /// Applies a discount to the item.
         /// </summary>
-        /// <param name="amount">The amount.</param>
+        /// <summary>
+        /// Increases the item's discount by the specified positive amount and updates totals.
+        /// </summary>
+        /// <param name="amount">Additional discount amount to add; if less than or equal to zero, the method does nothing. The existing currency is preserved.</param>
         public void ApplyDiscount(decimal amount)
         {
             if (amount <= 0)
@@ -257,6 +289,8 @@ namespace RTS.Invoicing.Domain.Entities.Invoices
 
         /// <summary>
         /// Recalculates the totals.
+        /// <summary>
+        /// Recalculates the item's TotalPrice as (Quantity * UnitPrice.Amount) minus DiscountAmount.Amount using UnitPrice.Currency.
         /// </summary>
         private void RecalculateTotals()
         {

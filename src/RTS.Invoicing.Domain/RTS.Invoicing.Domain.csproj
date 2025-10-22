@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <Folder Include="Entities\Payments\Events\" />
+    <Folder Include="Events\" />
+  </ItemGroup>
+</Project>

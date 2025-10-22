@@ -19,6 +19,12 @@ namespace RTS.Invoicing.Domain.Common
         /// <param name="value">The value.</param>
         /// <param name="isSuccess">if set to <c>true</c> [is success].</param>
         /// <param name="error">The error.</param>
+        /// <summary>
+        /// Creates a Result&lt;TValue&gt; with the given value, success indicator, and error.
+        /// </summary>
+        /// <param name="value">The result value; must be non-null when <paramref name="isSuccess"/> is true.</param>
+        /// <param name="isSuccess">True if the result represents a success; false if it represents a failure.</param>
+        /// <param name="error">The error associated with a failed result.</param>
         /// <exception cref="InvalidOperationException">A success result cannot be created with null value.</exception>
         public Result(TValue? value, bool isSuccess, Error error)
             : base(isSuccess, error)

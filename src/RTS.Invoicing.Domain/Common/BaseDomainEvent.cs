@@ -14,7 +14,10 @@ namespace RTS.Invoicing.Domain.Common
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseDomainEvent"/> class.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <summary>
+        /// Initializes a new instance of <see cref="BaseDomainEvent"/> with the specified identifier and sets <see cref="OccurredOn"/> to the current UTC time.
+        /// </summary>
+        /// <param name="id">The unique identifier for the domain event.</param>
         protected BaseDomainEvent(Guid id)
         {
             Id = id;

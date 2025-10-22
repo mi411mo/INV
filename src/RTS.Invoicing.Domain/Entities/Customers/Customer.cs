@@ -10,6 +10,8 @@ namespace RTS.Invoicing.Domain.Entities.Customers
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Customer"/> entity.
+        /// <summary>
+        /// Parameterless constructor used by ORM frameworks for entity materialization.
         /// </summary>
         private Customer()
             : base()
@@ -21,7 +23,11 @@ namespace RTS.Invoicing.Domain.Entities.Customers
         /// Initializes a new instance of the <see cref="Customer"/> class.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <param name="personId">The person identifier.</param>
+        /// <summary>
+        /// Initializes a new Customer with the specified identifier and person association for internal/ORM use.
+        /// </summary>
+        /// <param name="id">The customer identifier.</param>
+        /// <param name="personId">The associated person identifier.</param>
         private Customer(
             CustomerId id,
             PersonId personId)
@@ -59,7 +65,11 @@ namespace RTS.Invoicing.Domain.Entities.Customers
         /// Creates the specified customer with person identifier.
         /// </summary>
         /// <param name="personId">The person identifier.</param>
-        /// <returns></returns>
+        /// <summary>
+        /// Creates a new Customer linked to the specified person identifier.
+        /// </summary>
+        /// <param name="personId">The identifier of the related Person.</param>
+        /// <returns>The created Customer instance.</returns>
         public static Customer Create(PersonId personId)
         {
             return new Customer(new CustomerId(0), personId);
@@ -68,7 +78,11 @@ namespace RTS.Invoicing.Domain.Entities.Customers
         /// <summary>
         /// Sets the merchant-specific customer reference.
         /// </summary>
-        /// <param name="reference">The customer reference.</param>
+        /// <summary>
+        /// Sets the merchant-facing customer reference for this customer.
+        /// </summary>
+        /// <param name="reference">The merchant-specific reference string to assign; must not be null, empty, or whitespace.</param>
+        /// <returns>`Success` when the reference is assigned; otherwise a failure `Result` with `CustomerIsDeleted` if the customer is already deleted, or `EmptyReference` if the provided reference is null, empty, or whitespace.</returns>
         public Result SetReference(string reference)
         {
             if (IsDeleted)
@@ -87,7 +101,10 @@ namespace RTS.Invoicing.Domain.Entities.Customers
 
         /// <summary>
         /// Marks the customer as deleted. This is a soft delete.
+        /// <summary>
+        /// Marks the customer as deleted (soft delete) if it is not already deleted.
         /// </summary>
+        /// <returns>A success Result when deletion is performed; otherwise a failure Result with the CustomerIsDeleted error.</returns>
         public Result Delete()
         {
             if (IsDeleted)

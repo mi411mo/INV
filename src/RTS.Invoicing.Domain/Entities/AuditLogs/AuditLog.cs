@@ -11,6 +11,8 @@ namespace RTS.Invoicing.Domain.Entities.AuditLogs
     {
         /// <summary>
         /// Prevents a default instance of the <see cref="AuditLog"/> class from being created.
+        /// <summary>
+        /// Parameterless constructor used by ORMs to materialize AuditLog instances.
         /// </summary>
         private AuditLog()
             : base()
@@ -28,7 +30,17 @@ namespace RTS.Invoicing.Domain.Entities.AuditLogs
         /// <param name="entityName">Name of the entity.</param>
         /// <param name="action">The action.</param>
         /// <param name="oldValues">The old values.</param>
-        /// <param name="newValues">The new values.</param>
+        /// <summary>
+        /// Initializes a new AuditLog instance representing an auditable change or event.
+        /// </summary>
+        /// <param name="id">Unique identifier for the audit log entry.</param>
+        /// <param name="userId">Identifier of the user who performed the action, or null for system-initiated actions.</param>
+        /// <param name="timeStamp">Timestamp when the action occurred.</param>
+        /// <param name="entityId">Identifier of the affected entity as a string.</param>
+        /// <param name="entityName">Type name of the affected entity (for example, "Invoice" or "Customer").</param>
+        /// <param name="action">Action performed on the entity (for example, "Create", "Update", "Delete").</param>
+        /// <param name="oldValues">Serialized representation of the entity state before the action, or null if not applicable.</param>
+        /// <param name="newValues">Serialized representation of the entity state after the action, or null if not applicable.</param>
         public AuditLog(
             AuditLogId id,
             long? userId,
